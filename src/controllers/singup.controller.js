@@ -38,3 +38,16 @@ export const loginUser = async (req, res) => {
     return res.status(500).json({ message: "Ocurrio un error" });
   }
 };
+
+export const deleteUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [result] = await pool.query("DELETE FROM users WHERE id = ?", [id]);
+    if (result.affectedRows <= 0) {
+      return res.status(404).json({ message: "Ocurrio un error" });
+    }
+    res.sendStatus(204);
+  } catch (error) {
+    return res.status(500).json({ message: "Ocurrio un error" });
+  }
+};
